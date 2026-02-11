@@ -19,7 +19,7 @@
         .row { display: flex; gap: 3px; margin-bottom: 3px; align-items: center; }
         .idx { width: 15px; font-size: 11px; color: #999; text-align: right; }
         .input-box { flex: 1; display: flex; border: 1px solid #ccc; border-radius: 3px; overflow: hidden; height: 26px; }
-        .input-box label { background: #f8f9fa; padding: 0 4px; line-height: 26px; font-size: 11px; color: #666; border-right: 1px solid #eee; }
+        .input-box label { background: #f8f9fa; padding: 0 4px; line-height: 26px; font-size: 11px; color: #666; border-right: 1px solid #eee; white-space: nowrap; }
         .input-box input { border: none; width: 100%; padding: 0 5px; font-size: 14px; outline: none; }
 
         .action-bar { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 8px; display: flex; gap: 5px; border-top: 1px solid #ddd; }
@@ -81,12 +81,11 @@
 
     function init() {
         configs.forEach(conf => {
-            addSlot(conf.prefix, 1); // 每個類別初始只給 1 格
+            addSlot(conf.prefix, 1);
         });
         load();
     }
 
-    // 動態增加格子
     function addSlot(prefix, num) {
         const container = document.getElementById(`grid-${prefix}`);
         if (document.getElementById(`${prefix}-row-${num}`)) return;
@@ -97,7 +96,7 @@
         div.innerHTML = `
             <div class="idx">${num}</div>
             <div class="input-box">
-                <label>車次</label>
+                <label>列車</label>
                 <input type="number" id="${prefix}-t-${num}" oninput="handleInput('${prefix}', ${num})">
             </div>
             <div class="input-box">
@@ -114,7 +113,6 @@
         
         if (input.value.trim() !== "") {
             row.classList.remove('empty-row');
-            // 如果這是最後一格，且小於10格，就產生下一格
             if (num < 10) addSlot(prefix, num + 1);
         } else {
             row.classList.add('empty-row');
@@ -193,3 +191,4 @@
 </script>
 </body>
 </html>
+
