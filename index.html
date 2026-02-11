@@ -3,468 +3,193 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>寧靜車廂勸導紀錄表</title>
+    <title>寧靜車廂勸導紀錄</title>
     <style>
-        :root {
-            --primary-color: #2c3e50;
-            --accent-color: #3498db;
-            --bg-color: #f4f6f7;
-            --card-bg: #ffffff;
-            --border-color: #bdc3c7;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            background-color: var(--bg-color);
-            margin: 0;
-            padding: 10px;
-            color: #333;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        /* 標題區塊 */
-        .header-section {
-            background: var(--primary-color);
-            color: white;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            text-align: center;
-        }
-
-        .station-input {
-            background: transparent;
-            border: none;
-            border-bottom: 1px solid white;
-            color: white;
-            font-size: 1.2rem;
-            width: 80px;
-            text-align: center;
-        }
-
-        .station-input::placeholder {
-            color: #ccc;
-        }
-
-        .time-stamp {
-            font-size: 0.9rem;
-            color: #ecf0f1;
-            margin-top: 5px;
-            display: none; /* 預設隱藏，截圖模式才顯示 */
-        }
-
-        /* 總計區塊 */
-        .total-banner {
-            background: var(--card-bg);
-            border-left: 5px solid #e74c3c;
-            padding: 15px;
-            margin-bottom: 20px;
-            border-radius: 4px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            font-weight: bold;
-            font-size: 1.1rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .total-number {
-            font-size: 1.5rem;
-            color: #e74c3c;
-        }
-
-        /* 類別區塊 */
-        .category-card {
-            background: var(--card-bg);
-            margin-bottom: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            overflow: hidden;
-            border: 1px solid #ddd;
-        }
-
-        .category-header {
-            background: #ecf0f1;
-            padding: 10px 15px;
-            font-weight: bold;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #ddd;
-        }
-
-        .cat-count {
-            background: var(--accent-color);
-            color: white;
-            padding: 2px 8px;
-            border-radius: 12px;
-            font-size: 0.9rem;
-        }
-
-        /* 表格樣式 */
-        .grid-container {
-            padding: 5px;
-        }
-
-        .grid-row {
-            display: flex;
-            gap: 5px;
-            margin-bottom: 5px;
-            align-items: center;
-        }
-
-        .grid-index {
-            width: 20px;
-            font-size: 0.8rem;
-            color: #7f8c8d;
-            text-align: right;
-        }
-
-        .input-group {
-            flex: 1;
-            display: flex;
-            border: 1px solid var(--border-color);
-            border-radius: 4px;
-            overflow: hidden;
-        }
-
-        .input-group label {
-            background: #eee;
-            padding: 8px 5px;
-            font-size: 0.8rem;
-            color: #555;
-            border-right: 1px solid #ddd;
-            display: flex;
-            align-items: center;
-        }
-
-        .input-group input {
-            border: none;
-            padding: 8px;
-            width: 100%;
-            font-size: 1rem;
-            outline: none;
-            background: #fff;
-        }
-
-        .input-group input:focus {
-            background: #f0f8ff;
-        }
-
-        /* 按鈕區 */
-        .action-bar {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: white;
-            padding: 10px;
-            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            z-index: 100;
-        }
-
-        .btn {
-            border: none;
-            padding: 12px 20px;
-            border-radius: 25px;
-            font-weight: bold;
-            cursor: pointer;
-            flex: 1;
-            max-width: 200px;
-            font-size: 1rem;
-        }
-
-        .btn-screenshot {
-            background: var(--primary-color);
-            color: white;
-        }
-
-        .btn-reset {
-            background: #95a5a6;
-            color: white;
-        }
-
-        /* 截圖模式專用樣式 */
-        body.screenshot-mode {
-            background: white;
-            max-width: 100%;
-        }
-        body.screenshot-mode .action-bar {
-            display: none;
-        }
-        body.screenshot-mode .input-group {
-            border: 1px solid #333;
-        }
-        body.screenshot-mode input {
-            font-weight: bold;
-        }
-        body.screenshot-mode .time-stamp {
-            display: block; /* 顯示時間 */
-            color: white;
-            background: rgba(255,255,255,0.2);
-            padding: 5px;
-            border-radius: 4px;
-        }
-        body.screenshot-mode .grid-row.empty-row {
-            display: none; /* 截圖時隱藏空行，讓版面更乾淨，若想保留可移除此行 */
-        }
+        :root { --primary: #2c3e50; --bg: #f0f2f5; }
+        body { font-family: sans-serif; background: var(--bg); margin: 0; padding: 5px; font-size: 14px; }
         
-        /* 底部墊高，避免按鈕擋住內容 */
-        .spacer {
-            height: 80px;
-        }
+        .header { background: var(--primary); color: white; padding: 8px; border-radius: 5px; text-align: center; margin-bottom: 5px; }
+        .station-in { background: transparent; border: none; border-bottom: 1px solid white; color: white; width: 60px; text-align: center; font-size: 16px; }
+        
+        .summary { background: white; padding: 8px; border-radius: 5px; display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 5px; border-left: 4px solid #e74c3c; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        
+        .card { background: white; border-radius: 5px; margin-bottom: 5px; padding: 5px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .card-title { font-weight: bold; border-bottom: 1px solid #eee; padding-bottom: 3px; margin-bottom: 5px; display: flex; justify-content: space-between; font-size: 13px; }
+        
+        .row { display: flex; gap: 3px; margin-bottom: 3px; align-items: center; }
+        .idx { width: 15px; font-size: 11px; color: #999; text-align: right; }
+        .input-box { flex: 1; display: flex; border: 1px solid #ccc; border-radius: 3px; overflow: hidden; height: 26px; }
+        .input-box label { background: #f8f9fa; padding: 0 4px; line-height: 26px; font-size: 11px; color: #666; border-right: 1px solid #eee; }
+        .input-box input { border: none; width: 100%; padding: 0 5px; font-size: 14px; outline: none; }
+
+        .action-bar { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 8px; display: flex; gap: 5px; border-top: 1px solid #ddd; }
+        .btn { flex: 1; border: none; padding: 10px; border-radius: 5px; font-weight: bold; cursor: pointer; }
+        .btn-shot { background: var(--primary); color: white; }
+        .btn-clr { background: #bdc3c7; color: white; }
+
+        /* 截圖模式 */
+        body.screenshot-mode { background: white; padding: 10px; }
+        body.screenshot-mode .action-bar, 
+        body.screenshot-mode .empty-row { display: none !important; }
+        body.screenshot-mode .card { box-shadow: none; border: 1px solid #eee; }
+        
+        #timeLabel { display: none; font-size: 12px; margin-top: 5px; opacity: 0.8; }
+        body.screenshot-mode #timeLabel { display: block; }
+        .spacer { height: 60px; }
     </style>
 </head>
 <body>
 
-    <div class="header-section">
-        <h2 style="margin:0;">北 <input type="text" class="station-input" id="stationName" placeholder="（站名）"> 車下</h2>
-        <div class="time-stamp" id="timeStampDisplay"></div>
+    <div class="header">
+        <div style="font-weight: bold;">北 <input type="text" id="station" class="station-in" placeholder="____"> 車下</div>
+        <div id="timeLabel"></div>
     </div>
 
-    <div class="total-banner">
-        <span>寧靜車廂勸導總件數：</span>
-        <span class="total-number" id="grandTotal">0</span> 件
+    <div class="summary">
+        <span>勸導總件數：</span>
+        <span><span id="grandTotal">0</span> 件</span>
     </div>
 
-    <div class="category-card" id="cat-a">
-        <div class="category-header">
-            <span>A. 大聲喧嘩</span>
-            <span class="cat-count">共 <span id="count-a">0</span> 件</span>
-        </div>
-        <div class="grid-container" id="grid-a">
-            </div>
+    <div class="card">
+        <div class="card-title">A. 大聲喧嘩 <span id="count-a">0</span> 件</div>
+        <div id="grid-a"></div>
     </div>
 
-    <div class="category-card" id="cat-b">
-        <div class="category-header">
-            <span>B. 講電話</span>
-            <span class="cat-count">共 <span id="count-b">0</span> 件</span>
-        </div>
-        <div class="grid-container" id="grid-b">
-            </div>
+    <div class="card">
+        <div class="card-title">B. 講電話 <span id="count-b">0</span> 件</div>
+        <div id="grid-b"></div>
     </div>
 
-    <div class="category-card" id="cat-c">
-        <div class="category-header">
-            <span>C. 3C產品聲音</span>
-            <span class="cat-count">共 <span id="count-c">0</span> 件</span>
-        </div>
-        <div class="grid-container" id="grid-c">
-            </div>
+    <div class="card">
+        <div class="card-title">C. 3C產品 <span id="count-c">0</span> 件</div>
+        <div id="grid-c"></div>
     </div>
 
     <div class="spacer"></div>
 
     <div class="action-bar">
-        <button class="btn btn-reset" onclick="resetForm()">清除重填</button>
-        <button class="btn btn-screenshot" onclick="toggleScreenshotMode()">截圖模式 (含時間)</button>
+        <button class="btn btn-clr" onclick="resetForm()">清除</button>
+        <button class="btn btn-shot" onclick="toggleMode()">截圖模式</button>
     </div>
 
 <script>
-    // 初始化生成表格
-    function initGrids() {
-        createRows('grid-a', 'a');
-        createRows('grid-b', 'b');
-        createRows('grid-c', 'c');
-        loadData(); // 嘗試讀取暫存
+    const configs = [
+        { id: 'grid-a', prefix: 'a' },
+        { id: 'grid-b', prefix: 'b' },
+        { id: 'grid-c', prefix: 'c' }
+    ];
+
+    function init() {
+        configs.forEach(conf => {
+            addSlot(conf.prefix, 1); // 每個類別初始只給 1 格
+        });
+        load();
     }
 
-    function createRows(containerId, prefix) {
-        const container = document.getElementById(containerId);
-        for (let i = 1; i <= 10; i++) {
-            const row = document.createElement('div');
-            row.className = 'grid-row';
-            row.id = `${prefix}-row-${i}`;
-            
-            row.innerHTML = `
-                <div class="grid-index">${i}.</div>
-                <div class="input-group">
-                    <label>車次</label>
-                    <input type="number" id="${prefix}-train-${i}" oninput="updateCounts()" placeholder="">
-                </div>
-                <div class="input-group">
-                    <label>車廂</label>
-                    <input type="number" id="${prefix}-car-${i}" placeholder="">
-                </div>
-            `;
-            container.appendChild(row);
-        }
+    // 動態增加格子
+    function addSlot(prefix, num) {
+        const container = document.getElementById(`grid-${prefix}`);
+        if (document.getElementById(`${prefix}-row-${num}`)) return;
+
+        const div = document.createElement('div');
+        div.className = 'row empty-row';
+        div.id = `${prefix}-row-${num}`;
+        div.innerHTML = `
+            <div class="idx">${num}</div>
+            <div class="input-box">
+                <label>車次</label>
+                <input type="number" id="${prefix}-t-${num}" oninput="handleInput('${prefix}', ${num})">
+            </div>
+            <div class="input-box">
+                <label>車廂</label>
+                <input type="number" id="${prefix}-c-${num}" oninput="save()">
+            </div>
+        `;
+        container.appendChild(div);
     }
 
-    // 自動計算功能
-    function updateCounts() {
-        calculateCategory('a');
-        calculateCategory('b');
-        calculateCategory('c');
-        saveData(); // 自動儲存
-    }
-
-    function calculateCategory(prefix) {
-        let count = 0;
-        for (let i = 1; i <= 10; i++) {
-            const trainInput = document.getElementById(`${prefix}-train-${i}`);
-            const row = document.getElementById(`${prefix}-row-${i}`);
-            
-            // 只要有填寫車次，就算一件
-            if (trainInput.value.trim() !== "") {
-                count++;
-                row.classList.remove('empty-row');
-            } else {
-                row.classList.add('empty-row');
-            }
-        }
-        document.getElementById(`count-${prefix}`).innerText = count;
-        updateGrandTotal();
-    }
-
-    function updateGrandTotal() {
-        const a = parseInt(document.getElementById('count-a').innerText);
-        const b = parseInt(document.getElementById('count-b').innerText);
-        const c = parseInt(document.getElementById('count-c').innerText);
-        document.getElementById('grandTotal').innerText = a + b + c;
-    }
-
-    // 截圖模式切換
-    function toggleScreenshotMode() {
-        const body = document.body;
-        const btn = document.querySelector('.btn-screenshot');
-        const timeDisplay = document.getElementById('timeStampDisplay');
-
-        if (body.classList.contains('screenshot-mode')) {
-            // 回復編輯模式
-            body.classList.remove('screenshot-mode');
-            btn.innerText = "截圖模式 (含時間)";
-            timeDisplay.style.display = 'none';
+    function handleInput(prefix, num) {
+        const input = document.getElementById(`${prefix}-t-${num}`);
+        const row = document.getElementById(`${prefix}-row-${num}`);
+        
+        if (input.value.trim() !== "") {
+            row.classList.remove('empty-row');
+            // 如果這是最後一格，且小於10格，就產生下一格
+            if (num < 10) addSlot(prefix, num + 1);
         } else {
-            // 進入預覽模式
-            body.classList.add('screenshot-mode');
-            btn.innerText = "點擊返回編輯";
-            
-            // 更新時間戳記
+            row.classList.add('empty-row');
+        }
+        updateTotals();
+        save();
+    }
+
+    function updateTotals() {
+        let grand = 0;
+        configs.forEach(conf => {
+            let count = 0;
+            for (let i = 1; i <= 10; i++) {
+                const el = document.getElementById(`${conf.prefix}-t-${i}`);
+                if (el && el.value.trim() !== "") count++;
+            }
+            document.getElementById(`count-${conf.prefix}`).innerText = count;
+            grand += count;
+        });
+        document.getElementById('grandTotal').innerText = grand;
+    }
+
+    function toggleMode() {
+        const isMode = document.body.classList.toggle('screenshot-mode');
+        if (isMode) {
             const now = new Date();
-            const timeString = `${now.getFullYear()}/${(now.getMonth()+1).toString().padStart(2,'0')}/${now.getDate().toString().padStart(2,'0')} ${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`;
-            timeDisplay.innerText = `紀錄時間: ${timeString}`;
-            timeDisplay.style.display = 'block';
-            
-            // 提示用戶
-            alert("已切換至截圖模式：\n1. 自動隱藏未填寫的空行。\n2. 已加上日期時間。\n\n請直接使用手機截圖功能。");
+            document.getElementById('timeLabel').innerText = 
+                `時間：${now.getMonth()+1}月${now.getDate()}日 ${now.getHours()}:${now.getMinutes().toString().padStart(2,'0')}`;
         }
     }
 
-    // 儲存資料
-    function saveData() {
-        const rows = ['a', 'b', 'c'];
+    function save() {
         const data = {};
-        rows.forEach(prefix => {
-            data[prefix] = [];
+        configs.forEach(c => {
+            data[c.prefix] = [];
             for (let i = 1; i <= 10; i++) {
-                data[prefix].push({
-                    train: document.getElementById(`${prefix}-train-${i}`).value,
-                    car: document.getElementById(`${prefix}-car-${i}`).value
-                });
+                const t = document.getElementById(`${c.prefix}-t-${i}`);
+                const car = document.getElementById(`${c.prefix}-c-${i}`);
+                if (t) data[c.prefix].push({ t: t.value, c: car.value });
             }
         });
-        localStorage.setItem('quietCarData', JSON.stringify(data));
-        localStorage.setItem('stationName', document.getElementById('stationName').value);
+        localStorage.setItem('rail_data', JSON.stringify(data));
+        localStorage.setItem('rail_station', document.getElementById('station').value);
     }
 
-    // 讀取資料
-    function loadData() {
-        const savedData = localStorage.getItem('quietCarData');
-        const station = localStorage.getItem('stationName');
-        if (station) document.getElementById('stationName').value = station;
-
-        if (savedData) {
-            const data = JSON.parse(savedData);
-            ['a', 'b', 'c'].forEach(prefix => {
-                data[prefix].forEach((item, index) => {
-                    document.getElementById(`${prefix}-train-${index+1}`).value = item.train;
-                    document.getElementById(`${prefix}-car-${index+1}`).value = item.car;
+    function load() {
+        const saved = localStorage.getItem('rail_data');
+        const sta = localStorage.getItem('rail_station');
+        if (sta) document.getElementById('station').value = sta;
+        if (saved) {
+            const data = JSON.parse(saved);
+            configs.forEach(conf => {
+                data[conf.prefix].forEach((item, idx) => {
+                    const num = idx + 1;
+                    if (item.t || item.c) {
+                        addSlot(conf.prefix, num);
+                        document.getElementById(`${conf.prefix}-t-${num}`).value = item.t;
+                        document.getElementById(`${conf.prefix}-c-${num}`).value = item.c;
+                        if (item.t) document.getElementById(`${conf.prefix}-row-${num}`).classList.remove('empty-row');
+                        if (num < 10) addSlot(conf.prefix, num + 1);
+                    }
                 });
-                calculateCategory(prefix);
             });
+            updateTotals();
         }
     }
 
-    // 清除重填
     function resetForm() {
-        if (confirm('確定要清除所有資料嗎？')) {
-            localStorage.removeItem('quietCarData');
-            localStorage.removeItem('stationName');
+        if (confirm('確定清除？')) {
+            localStorage.clear();
             location.reload();
         }
     }
 
-    // 初始化執行
-    document.addEventListener('DOMContentLoaded', () => {
-        // 先建立三個區塊的表格
-        const sections = [
-            { id: 'grid-a', prefix: 'a' },
-            { id: 'grid-b', prefix: 'b' },
-            { id: 'grid-c', prefix: 'c' }
-        ];
-
-        sections.forEach(sec => {
-            const container = document.getElementById(sec.id);
-            for (let i = 1; i <= 10; i++) {
-                const row = document.createElement('div');
-                row.className = 'grid-row';
-                row.id = `${sec.prefix}-row-${i}`; // 方便控制顯示隱藏
-                
-                row.innerHTML = `
-                    <div class="grid-index">${i}.</div>
-                    <div class="input-group">
-                        <label>車次</label>
-                        <input type="number" id="${sec.prefix}-train-${i}" placeholder="" oninput="handleInput('${sec.prefix}', ${i})">
-                    </div>
-                    <div class="input-group">
-                        <label>車廂</label>
-                        <input type="number" id="${sec.prefix}-car-${i}" placeholder="" oninput="saveData()">
-                    </div>
-                `;
-                container.appendChild(row);
-            }
-        });
-        
-        // 載入舊資料
-        loadData();
-    });
-
-    function handleInput(prefix, index) {
-        // 計算該區塊總數
-        let count = 0;
-        for(let i=1; i<=10; i++) {
-            const val = document.getElementById(`${prefix}-train-${i}`).value;
-            const row = document.getElementById(`${prefix}-row-${i}`);
-            if(val.trim() !== "") {
-                count++;
-                row.classList.remove('empty-row');
-            } else {
-                row.classList.add('empty-row'); // 標記為空行
-            }
-        }
-        document.getElementById(`count-${prefix}`).innerText = count;
-        
-        // 更新總數
-        const total = 
-            parseInt(document.getElementById('count-a').innerText) +
-            parseInt(document.getElementById('count-b').innerText) +
-            parseInt(document.getElementById('count-c').innerText);
-        
-        document.getElementById('grandTotal').innerText = total;
-        
-        saveData();
-    }
-
+    init();
 </script>
-
 </body>
 </html>
-
-
